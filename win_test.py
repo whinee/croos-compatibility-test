@@ -1,5 +1,6 @@
 import win32api
 import win32file
+import win32con
 
 for drive in win32api.GetLogicalDriveStrings().split("\x00"):
 	type = win32file.GetDriveType(drive)
