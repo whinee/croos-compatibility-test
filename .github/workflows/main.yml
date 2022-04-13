@@ -4,9 +4,11 @@ jobs:
   win:
     runs-on: windows-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@master
       - name: Python3.10
         uses: actions/setup-python@v1
         with:
           python-version: "3.10"
       - name: test
-        run: python -c "import os;print(os.getenv('username'))"
+        run: python -m pip install -r win_req.txt; python win_test.py
