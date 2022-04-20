@@ -1,6 +1,8 @@
 import locale
 import os
 
+from rich.pretty import pprint as print
+
 if os.name != 'posix':
     import ctypes
 
@@ -33,4 +35,5 @@ else:
     lc = locale.getdefaultlocale()[0][:2]
     cos = 1
 
-print
+print(cflop)
+print(lc)
