@@ -4,6 +4,8 @@ import os
 from rich.pretty import pprint as print
 
 if os.name != 'posix':
+    import ctypes
+
     cflop = [
         fr"{os.getcwd()}\config.yml",
         fr"{os.getenv('USERPROFILE')}\AppData\Roaming\Hyaku\config.yml"
