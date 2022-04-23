@@ -23,6 +23,7 @@ if os.name != 'posix':
     ]
     lc = locale.windows_locale[ctypes.windll.kernel32.GetUserDefaultUILanguage()][:2]
     cos = 0
+    print(os.environ.get("USERPROFILE"))
 else:
     cflop = [
         f"{os.getcwd()}/config.yml",
