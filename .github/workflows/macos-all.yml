@@ -1,6 +1,9 @@
+name: "macos-all"
+run-name: "macos-all"
+
 env:
   os: macos
-run-name: "macos-all"
+
 on:
   workflow_dispatch:
   workflow_run:
