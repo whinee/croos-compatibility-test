@@ -1,6 +1,6 @@
 env:
   os: macos
-name: "${{ env.os }}-all"
+run-name: "${{ env.os }}-all"
 on:
   workflow_dispatch:
   workflow_run:
@@ -31,5 +31,4 @@ jobs:
           git config user.email github-actions@github.com
           git add .
           git commit -m "Update README.md"
-          git fetch origin master
-          git push origin HEAD:master
+          git push

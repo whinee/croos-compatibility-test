@@ -1,6 +1,6 @@
 env:
   os: windows
-name: "${{ env.os }}-all"
+run-name: "${{ env.os }}-all"
 on:
   push:
   workflow_dispatch:
@@ -28,5 +28,4 @@ jobs:
           git config user.email github-actions@github.com
           git add .
           git commit -m "Update README.md"
-          git fetch origin master
-          git push origin HEAD:master
+          git push
