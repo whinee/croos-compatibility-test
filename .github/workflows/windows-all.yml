@@ -2,11 +2,14 @@ env:
   os: windows
 name: "windows-all"
 on:
-  push:
   workflow_dispatch:
+  workflow_run:
+    workflows: ["macos-all"]
+    types:
+      - completed
 jobs:
   test:
-    runs-on: "windows-latest"
+    runs-on: "${{ env.os }}-latest"
     steps:
       - name: Checkout
         uses: actions/checkout@master

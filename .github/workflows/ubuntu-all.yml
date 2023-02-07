@@ -2,11 +2,8 @@ env:
   os: ubuntu
 name: "ubuntu-all"
 on:
+  push:
   workflow_dispatch:
-  workflow_run:
-    workflows: ["macos-all"]
-    types:
-      - completed
 jobs:
   test:
     runs-on: "${{ env.os }}-latest"
@@ -24,6 +21,7 @@ jobs:
           python -m pip install -r all_req.txt
           python -m pip install -r "${{ env.os }}"_req.txt
           ( python all.py 3>&1 1>&2- 2>&3- ) | python rmm.py
+          cat README.md
       - name: Commit to repository
         run: |-
           git config user.name github-actions
