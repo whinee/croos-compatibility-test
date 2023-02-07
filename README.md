@@ -31,7 +31,10 @@
 #### **Mac OS**
 
 ```macos
-.
+Traceback (most recent call last):
+  File "/Users/runner/work/cross-compatibility-test/cross-compatibility-test/all.py", line 9, in <module>
+    raise Exception("ha")
+Exception: ha
 ```
 
 #### **Ubuntu**
