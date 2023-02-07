@@ -25,7 +25,7 @@
 #### **Windows**
 
 ```windows
-.
+
 ```
 
 #### **Mac OS**
