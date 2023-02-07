@@ -1,6 +1,6 @@
 env:
   os: ubuntu
-run-name: "${{ github.action }}-all"
+run-name: "ubuntu-all"
 on:
   workflow_dispatch:
   workflow_run:

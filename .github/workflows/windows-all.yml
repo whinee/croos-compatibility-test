@@ -1,6 +1,6 @@
 env:
   os: windows
-run-name: "${{ github.action }}-all"
+name: "windows-all"
 on:
   push:
   workflow_dispatch:
