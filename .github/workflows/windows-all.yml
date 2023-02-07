@@ -1,6 +1,6 @@
 env:
   os: windows
-run_name: "windows-all"
+run-name: "windows-all"
 on:
   workflow_dispatch:
   workflow_run:

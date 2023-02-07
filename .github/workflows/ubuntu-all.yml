@@ -1,6 +1,6 @@
 env:
   os: ubuntu
-run_name: "ubuntu-all"
+run-name: "ubuntu-all"
 on:
   push:
   workflow_dispatch:
