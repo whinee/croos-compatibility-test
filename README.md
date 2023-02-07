@@ -24,18 +24,18 @@
 
 #### **Windows**
 
-```Windows
+```windows
 .
 ```
 
 #### **Mac OS**
 
-```macOS
+```macos
 .
 ```
 
 #### **Ubuntu**
 
-```Linux
+```ubuntu
 .
 ```

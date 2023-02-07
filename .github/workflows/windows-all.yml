@@ -17,15 +17,15 @@ jobs:
       - shell: bash --noprofile --norc {0}
         name: Test
         run: |-
-          echo "${{ env.os }}"
+          echo "${{ env.os }}" > os
           python -m pip install -r all_req.txt
           python -m pip install -r "${{ env.os }}"_req.txt
-          ( python all.py 3>&1 1>&2- 2>&3- ) | python -c "$(cat rmm.py)"'
-          main("${{ env.os }}")'
+          ( python all.py 3>&1 1>&2- 2>&3- ) | python rmm.py
       - name: Commit to repository
         run: |-
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git add .
+          git add . --dry-run
+          git add README.md
           git commit -m "Update README.md"
           git push
