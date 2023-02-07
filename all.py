@@ -6,7 +6,7 @@ from rich.pretty import pprint as print
 
 OS_NAME = platform.system()
 
-raise Exception("ha")
+# raise Exception("ha")
 
 if os.name != 'posix':
     import ctypes

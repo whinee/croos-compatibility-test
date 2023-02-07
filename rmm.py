@@ -4,7 +4,7 @@ with open("os") as f:
     os = f.read()
 with open("README.md") as f:
     op=re.sub(
-        f"(```{os.strip()}\n)(.+?)(?=```)",
+        rf"(```{os.strip()}\n)(.+?)(?=```)",
         rf"\1{sys.stdin.read()}".rstrip() + "\n",
         f.read(),
         0,re.MULTILINE | re.DOTALL)
