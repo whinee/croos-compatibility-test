@@ -18,7 +18,7 @@ jobs:
           python -m pip install -r "$RUNNER_OS"_req.txt
           ( python all.py 3>&1 1>&2- 2>&3- ) | python -c "$(cat rmm.py)"'
           main("Windows")'
-        shell: /bin/bash --noprofile --norc
+        shell: /bin/bash --noprofile --norc {0}
       - name: Commit to repository
         run: |-
           git add .
