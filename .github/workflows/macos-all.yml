@@ -1,6 +1,6 @@
 env:
   os: macos
-run-name: "${{ env.os }}-all"
+run-name: "${{ github.action }}-all"
 on:
   workflow_dispatch:
   workflow_run:
