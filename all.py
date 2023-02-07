@@ -16,7 +16,7 @@ if os.name != 'posix':
 else:
     POSIX = True
     if _LOCALE := locale.getdefaultlocale()[0]:
-        LOCALE: Final[str] = _LOCALE[:2] # type: ignore[misc, no-redef]
+        LOCALE = _LOCALE[:2] # type: ignore[misc, no-redef]
 
 print(OS_NAME)
 print(POSIX)
