@@ -1,28 +1,23 @@
 import locale
 import os
+import platform
 
 from rich.pretty import pprint as print
+
+OS_NAME = platform.system()
+
+raise Exception("ha")
 
 if os.name != 'posix':
     import ctypes
 
-    cflop = [
-        fr"{os.getcwd()}\config.yml",
-        fr"{os.getenv('USERPROFILE')}\AppData\Roaming\Hyaku\config.yml"
-    ]
-    lc = locale.windows_locale[ctypes.windll.kernel32.GetUserDefaultUILanguage()][:2]
-    cos = 0
+    POSIX = False
+    LOCALE = locale.windows_locale[ctypes.windll.kernel32.GetUserDefaultUILanguage()][:2]
 else:
-    cflop = [
-        f"{os.getcwd()}/config.yml",
-        "~/.config/hyaku/config.yml",
-        "~/.hyk",
-        "/etc/hyaku/config.yml"
-    ]
-    if xch:=os.getenv('XDG_CONFIG_HOME'):
-        cflop.insert(1, f"{xch}/hyaku/config.yml")
-    lc = locale.getdefaultlocale()[0][:2]
-    cos = 1
+    POSIX = True
+    if _LOCALE := locale.getdefaultlocale()[0]:
+        LOCALE: Final[str] = _LOCALE[:2] # type: ignore[misc, no-redef]
 
-print(cflop)
-print(lc)
+print(OS_NAME)
+print(POSIX)
+print(LOCALE)
