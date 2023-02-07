@@ -1,6 +1,12 @@
+env:
+  os: macos
+name: "${{ env.os }}-all"
 on:
-  push:
   workflow_dispatch:
+  workflow_run:
+    workflows: ["windows-all"]
+    types:
+      - completed
 jobs:
   test:
     runs-on: "macos-latest"
@@ -13,14 +19,16 @@ jobs:
           python-version: "3.10"
       - name: Test
         run: |-
-          echo "$RUNNER_OS"
+          echo "${{ env.os }}"
           python -m pip install -r all_req.txt
-          python -m pip install -r "$RUNNER_OS"_req.txt
+          python -m pip install -r "${{ env.os }}"_req.txt
           ( python all.py 3>&1 1>&2- 2>&3- ) | python -c "$(cat rmm.py)"'
-          main("Windows")'
+          main("${{ env.os }}")'
         shell: /bin/bash --noprofile --norc {0}
       - name: Commit to repository
         run: |-
+          git config user.name github-actions
+          git config user.email github-actions@github.com
           git add .
           git commit -m "Update README.md"
           git fetch origin master
