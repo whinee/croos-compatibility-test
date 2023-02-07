@@ -13,8 +13,8 @@ jobs:
       - name: Test
         run: |-
           python -m pip install -r all_req.txt; python -m pip install -r "$RUNNER_OS"_req.txt; ython all.py 2> >(python -c 'import sys, re;
-with open("README.md") as f:op=re.sub(f"(```'"$RUNNER_OS"'\n)(.+?)(?=```)",rf"\1{sys.stdin.read()}".rstrip() + "\n",f.read(),0,re.MULTILINE|re.DOTALL)
-with open("README.md", "w") as f:f.write(op)')
+          with open("README.md") as f:op=re.sub(f"(```'"$RUNNER_OS"'\n)(.+?)(?=```)",rf"\1{sys.stdin.read()}".rstrip() + "\n",f.read(),0,re.MULTILINE|re.DOTALL)
+          with open("README.md", "w") as f:f.write(op)')
         shell: bash
       - name: Commit to repository
         run: |-
