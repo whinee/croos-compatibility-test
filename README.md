@@ -36,6 +36,6 @@
 
 #### **Ubuntu**
 
-```ubuntu
+```Linux
 .
 ```
