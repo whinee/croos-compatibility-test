@@ -24,13 +24,13 @@
 
 #### **Windows**
 
-```windows
+```Windows
 .
 ```
 
 #### **Mac OS**
 
-```macos
+```macOS
 .
 ```
 
