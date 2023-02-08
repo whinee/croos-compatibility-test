@@ -25,8 +25,7 @@
 #### **Windows**
 
 ```windows
-Windows
-
+win32
 en
 ```
 
