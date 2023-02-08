@@ -25,7 +25,8 @@
 #### **Windows**
 
 ```windows
-Windows
+Windows
+
 en
 ```
 
@@ -40,6 +41,6 @@ en
 #### **Ubuntu**
 
 ```ubuntu
-Linux
+linux
 en
 ```
