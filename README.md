@@ -25,8 +25,10 @@
 #### **Windows**
 
 ```windows
-Windows
-False
+Windows
+
+False
+
 en
 ```
 
@@ -42,6 +44,5 @@ en
 
 ```ubuntu
 Linux
-True
 en
 ```
