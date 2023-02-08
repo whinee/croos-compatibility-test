@@ -25,13 +25,6 @@ jobs:
           python -m pip install -r all/req/all.txt
           python -m pip install -r all/req/${{ env.os }}.txt
           python all.py
-      - name: Repository Dispatch
-        uses: peter-evans/repository-dispatch@v2
-        with:
-          token: ${{ github.token }}
-          event-type: ${{ env.os }}-all
-          client-payload: |-
-            {"os": "${{ env.next-os }}"}
       - name: Commit to Repository
         continue-on-error: true
         run: |-
@@ -41,3 +34,10 @@ jobs:
           git add README.md
           git commit -m "Update README.md"
           git push
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ github.token }}
+          event-type: ${{ env.os }}-all
+          client-payload: |-
+            {"os": "${{ env.next-os }}"}
