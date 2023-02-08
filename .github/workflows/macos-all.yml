@@ -11,7 +11,6 @@ on:
 jobs:
   test:
     runs-on: ${{ github.event.client_payload.os }}-latest
-    continue-on-error: true
     steps:
       - name: Checkout
         uses: actions/checkout@master
@@ -26,14 +25,6 @@ jobs:
           python -m pip install -r all/req/all.txt
           python -m pip install -r all/req/${{ github.event.client_payload.os }}.txt
           python all.py
-      - name: Commit to repository
-        run: |-
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git add . --dry-run
-          git add README.md
-          git commit -m "Update README.md"
-          git push
       - name: Repository Dispatch
         uses: peter-evans/repository-dispatch@v2
         with:
@@ -41,3 +32,12 @@ jobs:
           event-type: ${{ env.os }}-all
           client-payload: |-
             {"os": "${{ env.next-os }}"}
+      - name: Commit to repository
+        continue-on-error: true
+        run: |-
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add . --dry-run
+          git add README.md
+          git commit -m "Update README.md"
+          git push
