@@ -1,18 +1,14 @@
-name: "windows-all"
-run-name: "windows-all"
+run-name: ${{ github.event.client_payload.os }}-all
 
 env:
-  os: windows
+  os: ${{ github.event.client_payload.os }}
 
 on:
-  workflow_dispatch:
-  workflow_run:
-    workflows: ["macos-all"]
-    types:
-      - completed
+  repository_dispatch:
+    types: [macos-all]
 jobs:
   test:
-    runs-on: "windows-latest"
+    runs-on: ${{ github.event.client_payload.os }}-latest
     steps:
       - name: Checkout
         uses: actions/checkout@master
@@ -23,9 +19,9 @@ jobs:
       - shell: bash --noprofile --norc {0}
         name: Test
         run: |-
-          echo ${{ env.os }} > os
+          echo ${{ github.event.client_payload.os }} > os
           python -m pip install -r all/req/all.txt
-          python -m pip install -r all/req/${{ env.os }}.txt
+          python -m pip install -r all/req/${{ github.event.client_payload.os }}.txt
           python all.py
       - name: Commit to repository
         run: |-

@@ -3,6 +3,7 @@ run-name: "ubuntu-all"
 
 env:
   os: ubuntu
+  next-os: macos
 
 on:
   push:
@@ -24,7 +25,7 @@ jobs:
           python -m pip install -r all/req/all.txt
           python -m pip install -r all/req/${{ env.os }}.txt
           python all.py
-      - name: Commit to repository
+      - name: Commit to Repository
         run: |-
           git config user.name github-actions
           git config user.email github-actions@github.com
@@ -32,3 +33,10 @@ jobs:
           git add README.md
           git commit -m "Update README.md"
           git push
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ github.token }}
+          event-type: ${{ env.os }}-all
+          client-payload: |-
+            {"os": "${{ env.next-os }}"}
