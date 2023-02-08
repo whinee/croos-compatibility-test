@@ -23,11 +23,10 @@ jobs:
       - shell: bash --noprofile --norc {0}
         name: Test
         run: |-
-          echo "${{ env.os }}" > os
-          python -m pip install -r all_req.txt
-          python -m pip install -r "${{ env.os }}"_req.txt
-          ( python all.py 3>&1 1>&2- 2>&3- ) | python rmm.py
-          cat README.md
+          echo ${{ env.os }} > os
+          python -m pip install -r all/req/all.txt
+          python -m pip install -r all/req/${{ env.os }}.txt
+          python all.py
       - name: Commit to repository
         run: |-
           git config user.name github-actions

@@ -1,23 +1,17 @@
-import locale
-import os
-import platform
+import re
+import subprocess
 
-from rich.pretty import pprint as print
+process = subprocess.Popen('python all/main.py', shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+out, _ = process.communicate()
+out = out.decode('utf-8')
+print(out)
 
-OS_NAME = platform.system()
+with open("os") as f:
+    os = f.read()
 
-# raise Exception("ha")
+with open("README.md") as f:
+    op=re.sub(rf"(```{os.strip()}\n)(.+?)(?=```)", rf"\1{out}".rstrip() + "\n",
+        f.read(), 0, re.MULTILINE | re.DOTALL)
 
-if os.name != 'posix':
-    import ctypes
-
-    POSIX = False
-    LOCALE = locale.windows_locale[ctypes.windll.kernel32.GetUserDefaultUILanguage()][:2]
-else:
-    POSIX = True
-    if _LOCALE := locale.getdefaultlocale()[0]:
-        LOCALE = _LOCALE[:2] # type: ignore[misc, no-redef]
-
-print(OS_NAME)
-print(POSIX)
-print(LOCALE)
+with open("README.md", "w") as f:
+    f.write(op)
