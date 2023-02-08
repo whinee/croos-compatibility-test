@@ -25,10 +25,8 @@
 #### **Windows**
 
 ```windows
-Windows
-
-False
-
+Windows
+False
 en
 ```
 
