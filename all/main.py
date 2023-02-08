@@ -1,18 +1,24 @@
 import locale
 import os
-import platform
+from sys import platform as PLATFORM
 
-OS_NAME = platform.system()
-
-if os.name != 'posix':
-    import ctypes
-
-    POSIX = False
-    LOCALE = locale.windows_locale[ctypes.windll.kernel32.GetUserDefaultUILanguage()][:2]
-else:
+if os.name == 'posix':
     POSIX = True
-    if _LOCALE := locale.getdefaultlocale()[0]:
-        LOCALE = _LOCALE[:2] # type: ignore[misc, no-redef]
+else:
+    POSIX = False
 
-print(OS_NAME)
+match PLATFORM:
+    case 'win32':
+        import ctypes
+
+        LOCALE = locale.windows_locale[ctypes.windll.kernel32.GetUserDefaultUILanguage()][:2]
+    case 'darwin' | 'linux':
+        if _LOCALE := locale.getdefaultlocale()[0]:
+            LOCALE = _LOCALE[:2]
+        else:
+            LOCALE = 'en'
+    case _:
+        print(f'Platform not Supported: {PLATFORM}')
+
+print(PLATFORM)
 print(LOCALE)
