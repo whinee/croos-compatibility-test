@@ -15,5 +15,4 @@ else:
         LOCALE = _LOCALE[:2] # type: ignore[misc, no-redef]
 
 print(OS_NAME)
-print(POSIX)
 print(LOCALE)
