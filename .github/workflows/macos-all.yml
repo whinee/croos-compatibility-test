@@ -7,6 +7,7 @@ env:
 on:
   repository_dispatch:
     types: [ubuntu-all]
+
 jobs:
   test:
     runs-on: ${{ github.event.client_payload.os }}-latest
@@ -25,6 +26,7 @@ jobs:
           python -m pip install -r all/req/${{ github.event.client_payload.os }}.txt
           python all.py
       - name: Commit to repository
+        if: always()
         run: |-
           git config user.name github-actions
           git config user.email github-actions@github.com

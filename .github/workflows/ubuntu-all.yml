@@ -7,7 +7,7 @@ env:
 
 on:
   push:
-  workflow_dispatch:
+
 jobs:
   test:
     runs-on: "ubuntu-latest"
@@ -26,6 +26,7 @@ jobs:
           python -m pip install -r all/req/${{ env.os }}.txt
           python all.py
       - name: Commit to Repository
+        if: always()
         run: |-
           git config user.name github-actions
           git config user.email github-actions@github.com
