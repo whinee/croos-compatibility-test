@@ -31,7 +31,9 @@
 #### **Mac OS**
 
 ```macos
-
+Darwin
+True
+en
 ```
 
 #### **Ubuntu**
