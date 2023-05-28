@@ -22,6 +22,7 @@ jobs:
         run: |-
           wget -q -O mermaid-electron.dmg 'https://github.com/whinee/mermaid-electron/releases/download/latest/mermaid-electron.dmg'
           MOUNT_OUTPUT=$(hdiutil attach -nobrowse mermaid-electron.dmg)
+          echo "$MOUNT_OUTPUT"
           VOLUME_NAME=$(echo "$MOUNT_OUTPUT" | grep -o '/Volumes/[^ ]*' | sed -n '1p')
           echo "Mounted DMG with volume name: $VOLUME_NAME"
           ls '/Volumes/'
