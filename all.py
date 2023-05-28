@@ -1,4 +1,3 @@
-from sys import platform as PLATFORM
 import base64
 import hashlib
 import json
@@ -7,6 +6,7 @@ import shlex
 import subprocess
 from collections.abc import Callable, Collection
 from io import BytesIO
+from sys import platform as PLATFORM
 from typing import Any, Optional, Union
 
 from PIL import Image, ImageOps
@@ -30,13 +30,13 @@ RESULTS_MD_TPL = """# Results
 """
 
 match PLATFORM:
-    case 'win32':
+    case "win32":
         OS = "windows"
         CMD = ".\mermaid-electron.exe"
-    case 'darwin':
+    case "darwin":
         OS = "macos"
         CMD = "./mermaid-electron.dmg"
-    case 'linux':
+    case "linux":
         OS = "linux"
         CMD = "./mermaid-electron.AppImage"
 
