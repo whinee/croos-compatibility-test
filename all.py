@@ -38,7 +38,7 @@ match PLATFORM:
         OS = "macos"
         mount_output = (
             subprocess.check_output(
-                shlex.split(
+                shlex.split(  # noqa: S603
                     "hdiutil attach -nobrowse mermaid-electron.dmg",
                 ),
             )
@@ -47,13 +47,18 @@ match PLATFORM:
         )
         volume_name = (
             subprocess.check_output(
-                shlex.split('echo "' + mount_output + '"'),
+                shlex.split('echo "' + mount_output + '"'),  # noqa: S603
             )
             .decode()
             .strip()
             .split("/Volumes/", 1)[1]
         )
         CMD = "'" + os.path.join("/Volumes", volume_name, "mermaid-electron.app") + "'"
+
+        chmod_cmd = f"chmod +x {CMD}"
+        if chmod_cmd.returncode != 0:
+            raise Exception(chmod_cmd.stderr)
+
     case "linux":
         OS = "linux"
         CMD = "./mermaid-electron.AppImage"
