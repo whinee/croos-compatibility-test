@@ -4,6 +4,7 @@ import json
 import multiprocessing.dummy as mp
 import os
 import shlex
+import stat
 import subprocess
 from collections.abc import Callable, Collection
 from io import BytesIO
@@ -53,17 +54,20 @@ match PLATFORM:
             .strip()
             .split("/Volumes/", 1)[1]
         )
-        CMD = "'" + os.path.join("/Volumes", volume_name, "mermaid-electron.app") + "'"
 
-        chmod_cmd = subprocess.run(
-            shlex.split(f"chmod +x {CMD}"),  # noqa: S603
-            capture_output=True,
-            text=True,
+        file_path = os.path.join("/Volumes", volume_name, "mermaid-electron.app")
+
+        CMD = "'" + file_path + "'"
+
+        current_permissions = stat.S_IMODE(os.lstat(file_path).st_mode)
+        new_permissions = (
+            current_permissions | stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH
         )
-
-        if chmod_cmd.returncode != 0:
-            raise Exception(chmod_cmd.stderr)
-        print(chmod_cmd.returncode, chmod_cmd.stdout)
+        try:
+            os.chmod(file_path, new_permissions)
+            print("Executable permissions set successfully.")
+        except OSError as e:
+            print(f"Error occurred while setting executable permissions: {e}")
 
     case "linux":
         OS = "linux"
