@@ -49,7 +49,7 @@ match PLATFORM:
             .strip()
             .split("/Volumes/", 1)[1]
         )
-        CMD = os.path.join(volume_name, "mermaid-electron.app")
+        CMD = os.path.join("/Volumes", volume_name, "mermaid-electron.app")
     case "linux":
         OS = "linux"
         CMD = "./mermaid-electron.AppImage"
@@ -57,6 +57,7 @@ match PLATFORM:
 IMG_TPL = f"![](https://github.com/whinee/cross-compatibility-test/releases/download/{OS}/screenshot-{{}}.png)"
 
 print(CMD)
+
 
 def calculate_checksum(data: str) -> str:
     return hashlib.md5(data.encode()).hexdigest()  # noqa: S324
