@@ -63,7 +63,7 @@ match PLATFORM:
 
         if chmod_cmd.returncode != 0:
             raise Exception(chmod_cmd.stderr)
-        print(chmod_cmd.stdout)
+        print(chmod_cmd.returncode, chmod_cmd.stdout)
 
     case "linux":
         OS = "linux"

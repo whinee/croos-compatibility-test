@@ -21,7 +21,7 @@ jobs:
         run: |-
           just --evaluate
           just bootstrap
-          source "$(just --evaluate pyenv_activate)"
+          . "$(just --evaluate pyenv_activate)"
           wget -q -O mermaid-electron.exe 'https://github.com/whinee/mermaid-electron/releases/download/latest/mermaid-electron.exe'
           attrib +x mermaid-electron.exe
           python all.py
