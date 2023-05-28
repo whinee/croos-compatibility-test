@@ -3,7 +3,7 @@ name: "windows-all"
 env:
   os: Windows
 
-on: push:
+on: push
 
 jobs:
   test:

@@ -3,7 +3,7 @@ name: "macos-all"
 env:
   os: MacOS
 
-on: push:
+on: push
 
 jobs:
   test:

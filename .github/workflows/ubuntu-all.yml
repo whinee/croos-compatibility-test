@@ -3,7 +3,7 @@ name: "ubuntu-all"
 env:
   os: Linux
 
-on: push:
+on: push
 
 jobs:
   test:
