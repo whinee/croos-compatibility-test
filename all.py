@@ -56,6 +56,7 @@ match PLATFORM:
 
 IMG_TPL = f"![](https://github.com/whinee/cross-compatibility-test/releases/download/{OS}/screenshot-{{}}.png)"
 
+print(CMD)
 
 def calculate_checksum(data: str) -> str:
     return hashlib.md5(data.encode()).hexdigest()  # noqa: S324
