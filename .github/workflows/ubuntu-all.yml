@@ -24,14 +24,12 @@ jobs:
       - name: Test
         shell: bash --noprofile --norc {0}
         run: |-
-          export DISPLAY=:99
-          Xvfb $DISPLAY -screen 0 1024x768x24 > /dev/null 2>&1 &
           just --evaluate
           just bootstrap
           source "$(just --evaluate pyenv_activate)"
           wget -q -O mermaid-electron.AppImage 'https://github.com/whinee/mermaid-electron/releases/download/latest/mermaid-electron.AppImage'
           chmod +x mermaid-electron.AppImage
-          python all.py
+          DISPLAY=:99 xvfb-run --server-num 99 python all.py
       - name: Delete Release
         shell: bash --noprofile --norc {0}
         env:
