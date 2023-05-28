@@ -35,7 +35,7 @@ match PLATFORM:
         CMD = ".\mermaid-electron.exe"
     case "darwin":
         OS = "macos"
-        CMD = "./mermaid-electron.dmg"
+        CMD = "./mermaid-electron.AppImage"
     case "linux":
         OS = "linux"
         CMD = "./mermaid-electron.AppImage"

@@ -20,8 +20,6 @@ jobs:
       - name: Test
         shell: bash --noprofile --norc {0}
         run: |-
-          sudo apt update
-          sudo apt install fuse
           just --evaluate
           just bootstrap
           source "$(just --evaluate pyenv_activate)"
