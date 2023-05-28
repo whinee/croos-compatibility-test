@@ -20,10 +20,12 @@ jobs:
       - name: Test
         shell: bash --noprofile --norc {0}
         run: |-
+          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+          brew install --cask osxfuse
           just --evaluate
           just bootstrap
           source "$(just --evaluate pyenv_activate)"
-          wget -O mermaid-electron.dmg 'https://github.com/whinee/mermaid-electron/releases/download/latest/mermaid-electron.dmg'
+          wget -q -O mermaid-electron.dmg 'https://github.com/whinee/mermaid-electron/releases/download/latest/mermaid-electron.dmg'
           chmod +x mermaid-electron.dmg
           python all.py
       - name: Delete Release

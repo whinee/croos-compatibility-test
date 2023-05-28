@@ -23,7 +23,7 @@ jobs:
           just --evaluate
           just bootstrap
           source "$(just --evaluate pyenv_activate)"
-          wget -O mermaid-electron.AppImage 'https://github.com/whinee/mermaid-electron/releases/download/latest/mermaid-electron.AppImage'
+          wget -q -O mermaid-electron.AppImage 'https://github.com/whinee/mermaid-electron/releases/download/latest/mermaid-electron.AppImage'
           chmod +x mermaid-electron.AppImage
           python all.py
       - name: Delete Release
