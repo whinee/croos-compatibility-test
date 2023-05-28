@@ -17,11 +17,17 @@ jobs:
           python-version: "3.10"
       - name: Install just
         uses: taiki-e/install-action@just
+      - name: Install Dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y xvfb libgtk-3-0 libnotify4 libgconf-2-4 libnss3 libxss1 libasound2 fuse
+      - name: Set up Xvfb
+        run: |
+          export DISPLAY=:99
+          Xvfb $DISPLAY -screen 0 1024x768x24 > /dev/null 2>&1 &
       - name: Test
         shell: bash --noprofile --norc {0}
         run: |-
-          sudo apt update
-          sudo apt install fuse
           just --evaluate
           just bootstrap
           source "$(just --evaluate pyenv_activate)"

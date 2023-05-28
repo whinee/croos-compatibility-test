@@ -20,12 +20,14 @@ jobs:
       - name: Test
         shell: bash --noprofile --norc {0}
         run: |-
-          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-          brew install --cask osxfuse
+          wget -q -O mermaid-electron.zip 'https://github.com/whinee/mermaid-electron/releases/download/latest/mermaid-electron.zip'
+          unzip 'mermaid-electron.zip'
+          ls -R
+          # /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+          # brew install --cask osxfuse
           just --evaluate
           just bootstrap
           source "$(just --evaluate pyenv_activate)"
-          wget -q -O mermaid-electron.AppImage 'https://github.com/whinee/mermaid-electron/releases/download/latest/mermaid-electron.dmg'
           chmod +x mermaid-electron.AppImage
           python all.py
       - name: Delete Release
