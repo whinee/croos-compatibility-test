@@ -18,9 +18,9 @@ jobs:
       - name: Test
         shell: bash --noprofile --norc {0}
         run: |-
-          source "$(just --evaluate pyenv_activate)"
           just bootstrap
-          wget -O mermaid-electron.exe 'https://github.com/whinee/mermaid-electron/releases/download/latest/mermaid-electron.exe'
+          source "$(just --evaluate pyenv_activate)"
+          wget -O mermaid-electron.dmg 'https://github.com/whinee/mermaid-electron/releases/download/latest/mermaid-electron.dmg'
           python all.py
       - name: Delete Release
         shell: bash --noprofile --norc {0}
