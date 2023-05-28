@@ -1,12 +1,9 @@
 name: "ubuntu-all"
-run-name: "ubuntu-all"
 
 env:
-  os: ubuntu
-  next-os: macos
+  os: Linux
 
-on:
-  push:
+on: push:
 
 jobs:
   test:
@@ -18,26 +15,39 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: "3.10"
-      - shell: bash --noprofile --norc {0}
-        name: Test
+      - name: Test
+        shell: bash --noprofile --norc {0}
         run: |-
-          echo ${{ env.os }} > os
-          python -m pip install -r all/req/all.txt
-          python -m pip install -r all/req/${{ env.os }}.txt
+          source "$(just --evaluate pyenv_activate)"
+          just bootstrap
+          wget -O mermaid-electron.AppImage 'https://github.com/whinee/mermaid-electron/releases/download/latest/mermaid-electron.AppImage'
           python all.py
-      - name: Commit to Repository
-        continue-on-error: true
-        run: |-
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git add . --dry-run
-          git add README.md
-          git commit -m "Update README.md"
-          git push
-      - name: Repository Dispatch
-        uses: peter-evans/repository-dispatch@v2
+      - name: Delete Release
+        shell: bash --noprofile --norc {0}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          release_name="${{ env.os }}"
+          release_id=$(curl -s -X GET -H "Authorization: token $GITHUB_TOKEN" "https://api.github.com/repos/${{ github.repository }}/releases" | jq ".[] | select(.name == \"$release_name\") | .id")
+          if [ ! -z "$release_id" ]; then
+            curl -X DELETE -H "Authorization: token $GITHUB_TOKEN" "https://api.github.com/repos/${{ github.repository }}/releases/$release_id"
+          else
+            echo "Release not found."
+          fi
+      - name: Read Release Message From File
+        id: read_release_message
+        shell: bash --noprofile --norc {0}
+        run: |
+          release_message=$(cat results.md)
+          echo "::set-output name=message::$release_message"
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          token: ${{ github.token }}
-          event-type: ${{ env.os }}-all
-          client-payload: |-
-            {"os": "${{ env.next-os }}"}
+          tag_name: ${{ env.os }}
+          release_name: ${{ env.os }}
+          body: ${{ steps.read_release_message.outputs.message }}
+          draft: false
+          prerelease: false
