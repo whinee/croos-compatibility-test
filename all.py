@@ -56,12 +56,14 @@ match PLATFORM:
         CMD = "'" + os.path.join("/Volumes", volume_name, "mermaid-electron.app") + "'"
 
         chmod_cmd = subprocess.run(
-            shlex.split(f"chmod +x {CMD}"),
+            shlex.split(f"chmod +x {CMD}"),  # noqa: S603
             capture_output=True,
             text=True,
         )
+
         if chmod_cmd.returncode != 0:
             raise Exception(chmod_cmd.stderr)
+        print(chmod_cmd.stdout)
 
     case "linux":
         OS = "linux"
