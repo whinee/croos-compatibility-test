@@ -38,18 +38,22 @@ match PLATFORM:
         OS = "macos"
         mount_output = (
             subprocess.check_output(
-                shlex.split("hdiutil attach -nobrowse mermaid-electron.dmg"),
+                shlex.split(
+                    "hdiutil attach -nobrowse mermaid-electron.dmg",
+                ),
             )
             .decode()
             .strip()
         )
         volume_name = (
-            subprocess.check_output(shlex.split('echo "' + mount_output + '"'))
+            subprocess.check_output(
+                shlex.split('echo "' + mount_output + '"'),
+            )
             .decode()
             .strip()
             .split("/Volumes/", 1)[1]
         )
-        CMD = os.path.join("/Volumes", volume_name, "mermaid-electron.app")
+        CMD = "'" + os.path.join("/Volumes", volume_name, "mermaid-electron.app") + "'"
     case "linux":
         OS = "linux"
         CMD = "./mermaid-electron.AppImage"
