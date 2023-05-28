@@ -4,6 +4,7 @@ import json
 import multiprocessing.dummy as mp
 import os
 import shlex
+import shutil
 import stat
 import subprocess
 from collections.abc import Callable, Collection
@@ -55,19 +56,27 @@ match PLATFORM:
             .split("/Volumes/", 1)[1]
         )
 
-        file_path = os.path.join("/Volumes", volume_name, "mermaid-electron.app")
+        volume_path = os.path.join("/Volumes", volume_name)
 
-        CMD = "'" + file_path + "'"
+        CMD = "mermaid-electron.app"
 
-        current_permissions = stat.S_IMODE(os.lstat(file_path).st_mode)
-        new_permissions = (
-            current_permissions | stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH
+        shutil.copytree(
+            os.path.join(volume_path, "mermaid-electron.app"),
+            os.path.join(
+                os.path.dirname(os.path.abspath(__file__)),
+                "mermaid-electron.app",
+            ),
         )
-        try:
-            os.chmod(file_path, new_permissions)
-            print("Executable permissions set successfully.")
-        except OSError as e:
-            print(f"Error occurred while setting executable permissions: {e}")
+
+        # Set the executable permissions on the copied application
+        CMD = os.path.join(
+            os.path.dirname(os.path.abspath(__file__)),
+            "mermaid-electron.app",
+            "Contents",
+            "MacOS",
+            "mermaid-electron",
+        )
+        os.chmod(CMD, os.stat(CMD).st_mode | stat.S_IXUSR)
 
     case "linux":
         OS = "linux"
