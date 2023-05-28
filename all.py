@@ -2,6 +2,7 @@ import base64
 import hashlib
 import json
 import multiprocessing.dummy as mp
+import os
 import shlex
 import subprocess
 from collections.abc import Callable, Collection
@@ -35,7 +36,20 @@ match PLATFORM:
         CMD = ".\mermaid-electron.exe"
     case "darwin":
         OS = "macos"
-        CMD = "./mermaid-electron.AppImage"
+        mount_output = (
+            subprocess.check_output(
+                shlex.split("hdiutil attach -nobrowse mermaid-electron.dmg"),
+            )
+            .decode()
+            .strip()
+        )
+        volume_name = (
+            subprocess.check_output(shlex.split('echo "' + mount_output + '"'))
+            .decode()
+            .strip()
+            .split("/Volumes/", 1)[1]
+        )
+        CMD = os.path.join(volume_name, "mermaid-electron.app")
     case "linux":
         OS = "linux"
         CMD = "./mermaid-electron.AppImage"
