@@ -55,7 +55,9 @@ match PLATFORM:
         )
         CMD = "'" + os.path.join("/Volumes", volume_name, "mermaid-electron.app") + "'"
 
-        chmod_cmd = f"chmod +x {CMD}"
+        chmod_cmd = subprocess.run(
+            shlex.split(f"chmod +x {CMD}"), capture_output=True, text=True,
+        )
         if chmod_cmd.returncode != 0:
             raise Exception(chmod_cmd.stderr)
 
