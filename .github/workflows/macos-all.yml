@@ -24,7 +24,7 @@ jobs:
           MOUNT_OUTPUT=$(hdiutil attach -nobrowse mermaid-electron.dmg)
           VOLUME_NAME=$(echo "$MOUNT_OUTPUT" | grep -o '/Volumes/[^ ]*' | sed -n '1p')
           echo "Mounted DMG with volume name: $VOLUME_NAME"
-          ls /Volumes/"$VOLUME_NAME"
+          ls "$VOLUME_NAME"
           hdiutil detach "$VOLUME_NAME"
           # ls -R
           # /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"

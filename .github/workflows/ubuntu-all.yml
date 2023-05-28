@@ -20,7 +20,7 @@ jobs:
       - name: Install Dependencies
         run: |
           sudo apt update
-          sudo apt install -y xvfb libgtk-3-0 libnotify4 libgconf-2-4 libnss3 libxss1 libasound2 fuse
+          sudo apt install -y fuse
       - name: Test
         shell: bash --noprofile --norc {0}
         run: |-
