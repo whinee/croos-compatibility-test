@@ -42,8 +42,8 @@ jobs:
         id: read_release_message
         shell: bash --noprofile --norc {0}
         run: |
-          release_message=$(cat results.md)
-          echo "::set-output name=message::$release_message"
+          release_message="$(cat results.md)"
+          echo "message=$release_message" >> $GITHUB_OUTPUT
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
