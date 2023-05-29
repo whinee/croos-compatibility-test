@@ -34,11 +34,12 @@ jobs:
         shell: bash --noprofile --norc {0}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
         run: |
           release_name="${{ env.os }}"
-          release_id=$(curl -s -X GET -H "Authorization: token $GITHUB_TOKEN" "https://api.github.com/repos/${{ github.repository }}/releases" | jq ".[] | select(.name == \"$release_name\") | .id")
+          release_id=$(curl -s -X GET -H "Authorization: token $GITHUB_TOKEN" "https://api.github.com/repos/$REPO/releases" | jq ".[] | select(.name == \"$release_name\") | .id")
           if [ ! -z "$release_id" ]; then
-            curl -X DELETE -H "Authorization: token $GITHUB_TOKEN" "https://api.github.com/repos/${{ github.repository }}/releases/$release_id"
+            curl -X DELETE -H "Authorization: token $GITHUB_TOKEN" "https://api.github.com/repos/$REPO/releases/$release_id"
           else
             echo "Release not found."
           fi
@@ -59,3 +60,18 @@ jobs:
           body: ${{ steps.read_release_message.outputs.message }}
           draft: false
           prerelease: false
+      - name: Read File and Upload Assets
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          release_name="${{ env.os }}"
+          release_id=$(curl -s -X GET -H "Authorization: token $GITHUB_TOKEN" "https://api.github.com/repos/$REPO/releases" | jq ".[] | select(.name == \"$release_name\") | .id")
+          filenames=$(cat path/to/filenames.txt)
+          for filename in $filenames; do
+            curl -s -X POST \
+              -H "Authorization: token $GITHUB_TOKEN" \
+              -H "Content-Type: $(file -b --mime-type $filename)" \
+              --data-binary @$filename \
+              "https://uploads.github.com/repos/$REPO/releases/$RELEASE_ID/assets?name=$(basename $filename)"
+          done

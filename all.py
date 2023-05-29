@@ -34,10 +34,10 @@ RESULTS_MD_TPL = """# Results
 
 match PLATFORM:
     case "win32":
-        OS = "windows"
+        OS = "Windows"
         CMD = ".\mermaid-electron.exe"
     case "darwin":
-        OS = "macos"
+        OS = "MacOS"
         mount_output = (
             subprocess.check_output(
                 shlex.split(  # noqa: S603
@@ -79,10 +79,11 @@ match PLATFORM:
         os.chmod(CMD, os.stat(CMD).st_mode | stat.S_IXUSR)
 
     case "linux":
-        OS = "linux"
+        OS = "Linux"
         CMD = "./mermaid-electron.AppImage"
 
-IMG_TPL = f"![](https://github.com/whinee/cross-compatibility-test/releases/download/{OS}/screenshot-{{}}.png)"
+IMG_FN_TPL = "screenshot-{}.png"
+IMG_TPL = f"![](https://github.com/whinee/cross-compatibility-test/releases/download/{OS}/{IMG_FN_TPL})"
 
 print(CMD)
 
@@ -189,6 +190,9 @@ def run_mermaid_electron(cmd: str, data: dict[str, Any]) -> None:
 
     with open("results.md", "w") as f:
         f.write(results_md)
+
+    with open("to-be-uploaded.txt", "w") as f:
+        f.write("\n".join([IMG_FN_TPL.format(i) for i in range(0, len(img_ls))]))
 
 
 mmd_ls = [
