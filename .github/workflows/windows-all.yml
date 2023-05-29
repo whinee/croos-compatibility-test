@@ -22,6 +22,9 @@ jobs:
         run: |-
           Invoke-WebRequest -OutFile 'mermaid-electron.exe' -Uri 'https://github.com/whinee/mermaid-electron/releases/download/latest/mermaid-electron.exe'
           attrib +x mermaid-electron.exe
+          python -m venv pyenv
+          Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force
+          .\pyenv\Scripts\Activate.ps1
           just --evaluate
           just bootstrap
           python all.py
