@@ -23,7 +23,7 @@ jobs:
           wget -q -O mermaid-electron.dmg 'https://github.com/whinee/mermaid-electron/releases/download/latest/mermaid-electron.dmg'
           just --evaluate
           just bootstrap
-          "$(just --evaluate pyenv_activate_cmd)"
+          $(just --evaluate pyenv_activate_cmd)
           python all.py
       - name: Delete Release
         shell: bash --noprofile --norc {0}
