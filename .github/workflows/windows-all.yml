@@ -24,7 +24,7 @@ jobs:
           attrib +x mermaid-electron.exe
           just --evaluate
           just bootstrap
-          $(just --evaluate pyenv_activate_cmd)
+          Invoke-Expression "$(just --evaluate pyenv_activate_cmd)"
           python all.py
       - name: Delete Release
         shell: bash --noprofile --norc {0}
