@@ -11,7 +11,7 @@ system_python := if os_family() == "windows" { "py.exe -3.10" } else { "python3.
 pyenv_dir := cwd + if os_family() == "windows" { "\\\\pyenv" } else { "/pyenv" }
 pyenv_bin_dir := pyenv_dir + if os_family() == "windows" { "\\\\Scripts" } else { "/bin" }
 python := pyenv_bin_dir + if os_family() == "windows" { "\\\\python.exe" } else { "/python3" }
-pyenv_activate := pyenv_bin_dir + if os_family() == "windows" { "\\\\Activate.ps1" } else { "/activate" }
+pyenv_activate := (if os_family() == "windows" { "& '" } else { "" }) + pyenv_bin_dir + (if os_family() == "windows" { "\\\\Activate.ps1'" } else { "/activate" })
 
 # Choose recipes
 default:
