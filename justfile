@@ -55,6 +55,9 @@ ruff:
     @ {{ python }} -m ruff check . --fix; exit 0
 
 # Set up development environment
+[linux]
+[macos]
+[unix]
 bootstrap:
     #!/usr/bin/env bash
     rm -rf poetry.lock
