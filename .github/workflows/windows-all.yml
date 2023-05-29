@@ -18,7 +18,7 @@ jobs:
       - name: Install just
         uses: taiki-e/install-action@just
       - name: Test
-        shell: pwsh
+        shell: pwsh-latest
         run: |-
           Invoke-WebRequest -OutFile 'mermaid-electron.exe' -Uri 'https://github.com/whinee/mermaid-electron/releases/download/latest/mermaid-electron.exe'
           attrib +x mermaid-electron.exe
