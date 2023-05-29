@@ -56,17 +56,14 @@ jobs:
           draft: false
           prerelease: false
       - name: Read File and Upload Assets
+        shell: bash --noprofile --norc {0}
         run: |
-          # Read the file and extract filenames
-          filenames=$(cat path/to/filenames.txt)
-          
-          # Iterate over each filename
+          upload_url=${{ steps.create_release.outputs.upload_url }}
+          filenames=$(cat to-be-uploaded.txt)
           for filename in $filenames; do
-            # Upload the file as a release asset
-            echo "Uploading $filename..."
             curl -s -X POST \
-              -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+              -H "Authorization: token $GITHUB_TOKEN" \
               -H "Content-Type: $(file -b --mime-type $filename)" \
               --data-binary @$filename \
-              "https://uploads.github.com/repos/$GITHUB_REPOSITORY/releases/$RELEASE_ID/assets?name=$(basename $filename)"
+              "$upload_url?name=$(basename $filename)"
           done
