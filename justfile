@@ -11,7 +11,7 @@ system_python := if os_family() == "windows" { "py.exe -3.10" } else { "python3.
 pyenv_dir := cwd + if os_family() == "windows" { "\\\\pyenv" } else { "/pyenv" }
 pyenv_bin_dir := pyenv_dir + if os_family() == "windows" { "\\\\Scripts" } else { "/bin" }
 python := pyenv_bin_dir + if os_family() == "windows" { "\\\\python.exe" } else { "/python3" }
-pyenv_activate := (if os_family() == "windows" { "& '" } else { "" }) + pyenv_bin_dir + (if os_family() == "windows" { "\\\\Activate.ps1'" } else { "/activate" })
+pyenv_activate := (if os_family() == "windows" { "Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force; . '" } else { "source '" }) + pyenv_bin_dir + (if os_family() == "windows" { "\\\\Activate.ps1'" } else { "/activate'" })
 
 # Choose recipes
 default:
@@ -55,7 +55,7 @@ bootstrap:
     rm -rf poetry.lock
     if test ! -e pyenv; then
         {{ system_python }} -m venv pyenv
-        source {{pyenv_activate}}
+        {{pyenv_activate}}
     fi
     {{ python }} -m pip install --upgrade pip poetry
     {{ python }} -m poetry install --with dev
