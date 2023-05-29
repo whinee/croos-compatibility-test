@@ -35,7 +35,10 @@ RESULTS_MD_TPL = """# Results
 match PLATFORM:
     case "win32":
         OS = "Windows"
-        CMD = ".\mermaid-electron.exe"
+        CMD = os.path.join(
+            os.path.dirname(os.path.abspath(__file__)),
+            "mermaid-electron.exe",
+        )
     case "darwin":
         OS = "MacOS"
         mount_output = (
@@ -80,7 +83,10 @@ match PLATFORM:
 
     case "linux":
         OS = "Linux"
-        CMD = "./mermaid-electron.AppImage"
+        CMD = os.path.join(
+            os.path.dirname(os.path.abspath(__file__)),
+            "mermaid-electron.AppImage",
+        )
 
 IMG_FN_TPL = "screenshot-{}.png"
 IMG_TPL = f"![](https://github.com/whinee/cross-compatibility-test/releases/download/{OS}/{IMG_FN_TPL})"
