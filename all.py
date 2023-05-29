@@ -35,10 +35,13 @@ RESULTS_MD_TPL = """# Results
 match PLATFORM:
     case "win32":
         OS = "Windows"
-        CMD = os.path.join(
+        file_name = os.path.join(
             os.path.dirname(os.path.abspath(__file__)),
             "mermaid-electron.exe",
         )
+        os.chmod(file_name, os.stat(file_name).st_mode | stat.S_IXUSR)
+        CMD = "powershell -Command " + file_name
+
     case "darwin":
         OS = "MacOS"
         mount_output = (
