@@ -12,9 +12,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@master
       - name: Install Python3.10
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v2
         with:
-          python-version: "3.10"
+          python-version: "3.x"
       - name: Install just
         uses: taiki-e/install-action@just
       - name: Test
