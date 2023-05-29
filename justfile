@@ -12,7 +12,7 @@ pyenv_dir := if os_family() == "windows" { ".\\\\pyenv" } else { "./pyenv" }
 pyenv_bin_dir := pyenv_dir + if os_family() == "windows" { "\\\\Scripts" } else { "/bin" }
 python := pyenv_bin_dir + if os_family() == "windows" { "\\\\python.exe" } else { "/python3" }
 pyenv_activate := pyenv_bin_dir + (if os_family() == "windows" { "\\\\Activate.ps1" } else { "/activate" })
-pyenv_activate_cmd := (if os_family() == "windows" { "Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force; " } else { "source " }) + pyenv_bin_dir
+pyenv_activate_cmd := (if os_family() == "windows" { "Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force; " } else { "source " }) + pyenv_activate
 
 # Choose recipes
 default:
