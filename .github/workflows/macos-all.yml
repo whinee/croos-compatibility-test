@@ -46,7 +46,7 @@ jobs:
           release_message="${release_message//'%'/'%25'}"
           release_message="${release_message//$'\n'/'%0A'}"
           release_message="${release_message//$'\r'/'%0D'}"
-          echo "message=$release_message" >> $GITHUB_OUTPUT
+          echo "::set-output name=message::$(echo "$release_message")"
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -66,9 +66,10 @@ jobs:
           upload_url=${{ steps.create_release.outputs.upload_url }}
           filenames=$(cat to-be-uploaded.txt)
           for filename in $filenames; do
-            curl -s -X POST \
-              -H "Authorization: token $GITHUB_TOKEN" \
+            curl -X POST \
               -H "Content-Type: $(file -b --mime-type $filename)" \
-              --data-binary @$filename \
-              "$upload_url?name=$(basename $filename)"
+              -T "$filename" \
+              -H "Authorization: token $GITHUB_TOKEN" \
+              -H "Accept: application/vnd.github.v3+json" \
+              "$upload_url?name=$filename" | cat
           done
