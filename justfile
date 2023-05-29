@@ -8,10 +8,11 @@ time_msg := '\e[38;2;151;120;211m%s\e[0m: %.2fs\n'
 # Derived Constants
 cwd := `python -c 'import os;print(os.getcwd().replace("\\", "\\\\").strip(), end="")'`
 system_python := if os_family() == "windows" { "py.exe -3.10" } else { "python3.10" }
-pyenv_dir := cwd + if os_family() == "windows" { "\\\\pyenv" } else { "/pyenv" }
+pyenv_dir := if os_family() == "windows" { ".\\\\pyenv" } else { "./pyenv" }
 pyenv_bin_dir := pyenv_dir + if os_family() == "windows" { "\\\\Scripts" } else { "/bin" }
 python := pyenv_bin_dir + if os_family() == "windows" { "\\\\python.exe" } else { "/python3" }
-pyenv_activate := (if os_family() == "windows" { "Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force; . '" } else { "source '" }) + pyenv_bin_dir + (if os_family() == "windows" { "\\\\Activate.ps1'" } else { "/activate'" })
+pyenv_activate := pyenv_bin_dir + (if os_family() == "windows" { "\\\\Activate.ps1" } else { "/activate" })
+pyenv_activate_cmd := (if os_family() == "windows" { "Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force; " } else { "source " }) + pyenv_bin_dir
 
 # Choose recipes
 default:
@@ -55,7 +56,7 @@ bootstrap:
     rm -rf poetry.lock
     if test ! -e pyenv; then
         {{ system_python }} -m venv pyenv
-        {{pyenv_activate}}
+        {{pyenv_activate_cmd}}
     fi
     {{ python }} -m pip install --upgrade pip poetry
     {{ python }} -m poetry install --with dev

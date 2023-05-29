@@ -18,13 +18,13 @@ jobs:
       - name: Install just
         uses: taiki-e/install-action@just
       - name: Test
+        shell: pwsh
         run: |-
           Invoke-WebRequest -OutFile 'mermaid-electron.exe' -Uri 'https://github.com/whinee/mermaid-electron/releases/download/latest/mermaid-electron.exe'
           attrib +x mermaid-electron.exe
           just --evaluate
           just bootstrap
           Get-Content "$(just --evaluate pyenv_activate)"
-          "$(just --evaluate pyenv_activate)"
           python all.py
       - name: Delete Release
         shell: bash --noprofile --norc {0}
