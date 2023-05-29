@@ -7,7 +7,8 @@ time_msg := '\e[38;2;151;120;211m%s\e[0m: %.2fs\n'
 
 # Derived Constants
 cwd := `python -c 'import os;print(os.getcwd().replace("\\", "\\\\").strip(), end="")'`
-system_python := if os_family() == "windows" { "py.exe -3.10" } else { "python3.10" }
+system_python := "python"
+# system_python := if os_family() == "windows" { "py.exe -3.10" } else { "python3.10" }
 pyenv_dir := if os_family() == "windows" { ".\\\\pyenv" } else { "./pyenv" }
 pyenv_bin_dir := pyenv_dir + if os_family() == "windows" { "\\\\Scripts" } else { "/bin" }
 python := pyenv_bin_dir + if os_family() == "windows" { "\\\\python.exe" } else { "/python3" }

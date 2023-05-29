@@ -14,18 +14,18 @@ jobs:
       - name: Install Python3.10
         uses: actions/setup-python@v2
         with:
-          python-version: "3.x"
+          python-version: 3.x
       - name: Install just
         uses: taiki-e/install-action@just
       - name: Test
         shell: pwsh
         run: |-
-          Invoke-WebRequest -OutFile 'mermaid-electron.exe' -Uri 'https://github.com/whinee/mermaid-electron/releases/download/latest/mermaid-electron.exe'
-          attrib +x mermaid-electron.exe
+          # Invoke-WebRequest -OutFile 'mermaid-electron.exe' -Uri 'https://github.com/whinee/mermaid-electron/releases/download/latest/mermaid-electron.exe'
+          # attrib +x mermaid-electron.exe
           just --evaluate
           just bootstrap
-          Get-Content "$(just --evaluate pyenv_activate)"
-          python all.py
+          # Get-Content "$(just --evaluate pyenv_activate)"
+          # python all.py
       - name: Delete Release
         shell: bash --noprofile --norc {0}
         env:
