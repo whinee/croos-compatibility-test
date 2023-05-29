@@ -15,6 +15,9 @@ python := pyenv_bin_dir + if os_family() == "windows" { "\\\\python.exe" } else 
 pyenv_activate := pyenv_bin_dir + (if os_family() == "windows" { "\\\\Activate.ps1" } else { "/activate" })
 pyenv_activate_cmd := (if os_family() == "windows" { "Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force; " } else { "source " }) + pyenv_activate
 
+# Program Arguments
+set windows-shell := ["powershell.exe", "-Command"]
+
 # Choose recipes
 default:
     @ just -lu; printf '%s ' press Enter to continue; read; just --choose
