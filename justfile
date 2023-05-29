@@ -66,6 +66,19 @@ bootstrap:
     {{ python }} -m poetry install --with dev
     {{ python }} -m pip cache purge
 
+# Set up development environment
+[windows]
+bootstrap:
+    #!powershell.exe
+    Remove-Item -Recurse poetry.lock
+    if (-not (Test-Path pyenv)) {
+        {{ system_python }} -m venv pyenv
+        {{pyenv_activate_cmd}}
+    }
+    {{ python }} -m pip install --upgrade pip poetry
+    {{ python }} -m poetry install --with dev
+    {{ python }} -m pip cache purge
+
 # Lint codebase
 lint:
     @ just time "          Python Files Formatted" "  Formatting Python Files Failed" {{ python }} -m black -q .
