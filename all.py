@@ -163,6 +163,9 @@ def run_mermaid_electron(cmd: str, data: dict[str, Any]) -> None:
     if stderr:
         raise Exception(stderr)
 
+    print(type(stdout))
+    print(stdout)
+
     img_ls: list[str] = json.loads(stdout)
 
     p = mp.Pool(10)
