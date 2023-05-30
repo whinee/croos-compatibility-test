@@ -40,7 +40,7 @@ match PLATFORM:
             "mermaid-electron.exe",
         )
         os.chmod(file_name, os.stat(file_name).st_mode | stat.S_IXUSR)
-        CMD = "powershell -Command " + file_name
+        CMD = "powershell -Command " + file_name.replace("\\", "\\\\")
 
     case "darwin":
         OS = "MacOS"

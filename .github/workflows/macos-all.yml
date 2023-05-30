@@ -9,6 +9,19 @@ jobs:
   test:
     runs-on: "macos-latest"
     steps:
+      - name: Delete Release
+        shell: bash --noprofile --norc {0}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          release_name="${{ env.os }}"
+          release_id=$(curl -s -X GET -H "Authorization: token $GITHUB_TOKEN" "https://api.github.com/repos/$REPO/releases" | jq ".[] | select(.name == \"$release_name\") | .id")
+          if [ ! -z "$release_id" ]; then
+            curl -X DELETE -H "Authorization: token $GITHUB_TOKEN" "https://api.github.com/repos/$REPO/releases/$release_id"
+          else
+            echo "Release not found."
+          fi
       - name: Checkout
         uses: actions/checkout@master
       - name: Install Python3.10
@@ -25,53 +38,12 @@ jobs:
           just bootstrap
           $(just --evaluate pyenv_activate_cmd)
           python all.py
-      - name: Delete Release
-        shell: bash --noprofile --norc {0}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          REPO: ${{ github.repository }}
-        run: |
-          release_name="${{ env.os }}"
-          release_id=$(curl -s -X GET -H "Authorization: token $GITHUB_TOKEN" "https://api.github.com/repos/$REPO/releases" | jq ".[] | select(.name == \"$release_name\") | .id")
-          if [ ! -z "$release_id" ]; then
-            curl -X DELETE -H "Authorization: token $GITHUB_TOKEN" "https://api.github.com/repos/$REPO/releases/$release_id"
-          else
-            echo "Release not found."
-          fi
-      - name: Read Release Message From File
-        id: read_release_message
-        shell: bash --noprofile --norc {0}
-        run: |
-          release_message=$(cat results.md)
-          release_message="${release_message//'%'/'%25'}"
-          release_message="${release_message//$'\n'/'%0A'}"
-          release_message="${release_message//$'\r'/'%0D'}"
-          echo "::set-output name=message::$(echo "$release_message")"
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload PNGs
+        uses: AButler/upload-release-assets@v2.0
         with:
-          tag_name: ${{ env.os }}
-          release_name: ${{ env.os }}
-          body: ${{ steps.read_release_message.outputs.message }}
-          draft: false
-          prerelease: false
-      - name: Read File and Upload Assets
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          REPO: ${{ github.repository }}
-        run: |
-          upload_url=${{ steps.create_release.outputs.upload_url }}
-          echo "$upload_url"
-          filenames=$(cat to-be-uploaded.txt)
-          for filename in $filenames; do
-            curl -X POST \
-              -H "Content-Type: application/octet" \
-              --data-binary "@$filename "\
-              -H "Authorization: token $GITHUB_TOKEN" \
-              -H "Accept: application/vnd.github.v3+json" \
-              "$upload_url?name=$filename" | cat
-            # "https://uploads.github.com/repos/hubot/singularity/releases/123/assets?name=1.0.0-mac.zip"
-          done
+          bodyFile: 'results.md'
+          files: '*.png'
+          allowUpdates: true
+          removeArtifacts: true
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ env.os }}
